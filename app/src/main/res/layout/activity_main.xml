@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.quesorbeto.quesorbetoapp.MainActivity"
+    android:background="@color/colorBlack">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layout_marginTop="@dimen/normal_margin_x1">
+
+        <LinearLayout
+            android:id="@+id/customerButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/colorBlue"
+            android:layout_margin="@dimen/normal_margin_x1">
+
+            <ImageView
+                android:layout_width="@dimen/menu_images_size"
+                android:layout_height="@dimen/menu_images_size"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_customer_white"
+                android:layout_margin="@dimen/normal_margin_x1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:text="Clientes"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/h4"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/normal_margin_x1"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/productButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/colorRed"
+            android:layout_margin="@dimen/normal_margin_x1">
+
+            <ImageView
+                android:layout_width="@dimen/menu_images_size"
+                android:layout_height="@dimen/menu_images_size"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_product_white"
+                android:layout_margin="@dimen/normal_margin_x1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:text="Productos"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/h4"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/normal_margin_x1"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layout_marginTop="@dimen/normal_margin_x1">
+
+        <LinearLayout
+            android:id="@+id/invoiceButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/colorPurpleLight"
+            android:layout_margin="@dimen/normal_margin_x1">
+
+            <ImageView
+                android:layout_width="@dimen/menu_images_size"
+                android:layout_height="@dimen/menu_images_size"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_invoice_white"
+                android:layout_margin="@dimen/normal_margin_x1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:text="Facturación"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/h4"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/normal_margin_x1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/logoutButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/colorOrangeLight"
+            android:layout_margin="@dimen/normal_margin_x1">
+
+            <ImageView
+                android:layout_width="@dimen/menu_images_size"
+                android:layout_height="@dimen/menu_images_size"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_logout_white"
+                android:layout_margin="@dimen/normal_margin_x1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:text="Salir"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/h4"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/normal_margin_x1"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

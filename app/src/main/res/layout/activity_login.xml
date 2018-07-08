@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <ImageView
+        android:layout_width="@dimen/logo_size"
+        android:layout_height="@dimen/logo_size"
+        android:src="@drawable/cheese"
+        android:layout_marginLeft="@dimen/margin_login_logo"
+        android:layout_marginRight="@dimen/margin_login_logo"
+        android:layout_marginTop="@dimen/margin_login_logo"
+        android:layout_marginBottom="@dimen/normal_margin_x1"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QueSorbeto"
+        android:textSize="@dimen/h2"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/normal_margin_x3"/>
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/normal_margin_x4"
+        android:layout_marginRight="@dimen/normal_margin_x4"
+        android:layout_marginBottom="@dimen/normal_margin_x2"
+        android:inputType="textEmailAddress"
+        android:hint="Correo"/>
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/normal_margin_x4"
+        android:layout_marginRight="@dimen/normal_margin_x4"
+        android:layout_marginBottom="@dimen/normal_margin_x5"
+        android:inputType="textPassword"
+        android:hint="Contraseña"/>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/normal_margin_x4"
+        android:layout_marginRight="@dimen/normal_margin_x4"
+        android:text="Iniciar sesión"
+        android:textColor="@color/colorWhite"
+        android:backgroundTint="@color/colorAccent"
+        android:textSize="@dimen/h5"
+        android:textStyle="bold"/>
+</LinearLayout>
