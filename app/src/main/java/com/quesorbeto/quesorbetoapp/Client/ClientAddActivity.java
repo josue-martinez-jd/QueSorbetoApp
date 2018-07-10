@@ -1,16 +1,33 @@
 package com.quesorbeto.quesorbetoapp.Client;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import com.quesorbeto.quesorbetoapp.DBGenerator.DbHelper;
 import com.quesorbeto.quesorbetoapp.R;
 import com.quesorbeto.quesorbetoapp.Utils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import QueSorbetoDataBase.Client;
@@ -24,6 +41,12 @@ public class ClientAddActivity extends AppCompatActivity {
     EditText clientPhone;
     EditText clientName;
     Client client = null;
+    MaterialSpinner spinnerCountries;
+    ImageButton btnEdit;
+
+    //variables globales
+    List<String> arrayCountries = new ArrayList<>();
+    String sChosenCountry = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +61,11 @@ public class ClientAddActivity extends AppCompatActivity {
         clientAdress = findViewById(R.id.clientAdress);
         clientPhone = findViewById(R.id.clientPhone);
         clientName = findViewById(R.id.clientName);
+        spinnerCountries = findViewById(R.id.spinnerCountries);
+        btnEdit = findViewById(R.id.btnEdit);
+
+        //ingresa los paises en el spinner
+        spinnerCountriesAdd();
 
         //obtiene el id del cliente seleccionado
         String idClient = getIntent().getExtras().getString("idClient");
@@ -49,13 +77,22 @@ public class ClientAddActivity extends AppCompatActivity {
                     .where(ClientDao.Properties.IdClient.eq(idClient))
                     .unique();
 
-            clientName.setText(client.getName().toString());
-            clientAdress.setText(client.getAddress().toString());
-            clientPhone.setText(client.getPhone().toString());
+            clientName.setText(client.getName());
+            clientAdress.setText(client.getAddress());
+            clientPhone.setText(client.getPhone());
+
+            disableEditableTextFields();
+
+            //set edit button visible
+            btnEdit.setVisibility(View.VISIBLE);
+
         }else{
             //si no selecciono cliente cree uno nuevo
             client = new Client();
         }
+
+        //al escoger un pais
+        spinnerCountriesListener();
 
         //al dar boton de salvar
         saveClientButton.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +104,7 @@ public class ClientAddActivity extends AppCompatActivity {
 
                     //setea los nuevos valores
                     client.setName(clientName.getText().toString());
-                    client.setAddress(clientAdress.getText().toString());
+                    client.setAddress(sChosenCountry + ',' + clientAdress.getText().toString());
                     client.setPhone(clientPhone.getText().toString());
 
                     //setea el id de cliente si es un cliente nuevo
@@ -85,11 +122,104 @@ public class ClientAddActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //edit button Listener
+        btnEditOnClickLister();
+    }
+
+    private void spinnerCountriesAdd() {
+        serviceTasks service = new serviceTasks();
+        service.execute();
+    }
+
+    private void spinnerCountriesListener () {
+        spinnerCountries.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                //obtiene el pais seleccionado
+                sChosenCountry = arrayCountries.get(position);
+                Utils.showMessage(ClientAddActivity.this,sChosenCountry);
+            }
+        });
+    }
+
+    private void disableEditableTextFields () {
+        clientName.setFocusable(false);
+        clientAdress.setFocusable(false);
+        clientPhone.setFocusable(false);
+    }
+
+    private void btnEditOnClickLister () {
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clientName.setFocusableInTouchMode(true);
+                clientAdress.setFocusableInTouchMode(true);
+                clientPhone.setFocusableInTouchMode(true);
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
        onBackPressed();
        return true;
+    }
+
+    private class serviceTasks extends AsyncTask < Void, Void, Void > {
+        String urlTxt = "http://country.io/names.json";
+        String bufferText;
+        String finalText;
+
+        protected Void doInBackground ( Void... params) {
+            URL url;
+            try{
+                url = new URL(urlTxt);
+                BufferedReader theBufferReader = new BufferedReader( new InputStreamReader(url.openStream()));
+
+                while ((bufferText = theBufferReader.readLine()) != null) {
+                    finalText += bufferText;
+                }
+
+                theBufferReader.close();
+
+            } catch (MalformedURLException e) {
+                Utils.showMessage(ClientAddActivity.this,"Error al abrir el URL!");
+                e.printStackTrace();
+                Log.d("===>>ERROR: ", e.toString());
+            } catch (IOException e) {
+                Utils.showMessage(ClientAddActivity.this,"Error al cargar los datos!");
+                e.printStackTrace();
+                Log.d("===>>ERROR: ", e.toString());
+            }
+            return null;
+        }
+
+        protected void onPostExecute ( Void result) {
+            try {
+                String prefix = "null";
+                if (finalText.startsWith(prefix)){
+                    finalText = finalText.substring(prefix.length(), finalText.length());
+                }
+
+                JSONObject jsonClient = new JSONObject(finalText);
+
+                //Agregar paises al dropdown
+                for (int i = 0; i < jsonClient.length(); i++) {
+                    arrayCountries.add(jsonClient.get(jsonClient.names().getString(i)).toString());
+                }
+                Utils.sortAlphabeticallyArrayList(arrayCountries);
+
+                spinnerCountries.setItems(arrayCountries);
+            }
+            catch (JSONException e) {
+                Utils.showMessage(ClientAddActivity.this,"Error al mostrar los datos! \n" +
+                                                                            "Json Response:\n"+ finalText);
+                e.printStackTrace();
+                Log.d("===>>ERROR: ", e.toString());
+            }
+            super.onPostExecute(result);
+        }
+
     }
 }

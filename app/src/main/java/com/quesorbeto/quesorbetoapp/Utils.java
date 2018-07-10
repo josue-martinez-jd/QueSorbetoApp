@@ -7,6 +7,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.Collections;
+import java.util.List;
+
 //clase que nos ayuda a evitar duplicar codigo
 public class Utils {
 
@@ -41,6 +44,25 @@ public class Utils {
                 });
         AlertDialog alert11 = builder1.create();
         alert11.show();
+    }
+
+    public static void showMessage (final Activity activity, String message) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
+        builder1.setMessage(message);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Aceptar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    public static void sortAlphabeticallyArrayList (List arraylist) {
+        Collections.sort(arraylist, String.CASE_INSENSITIVE_ORDER);
     }
 
     //Logica universal para el back press, para evitar duplicar codigo
