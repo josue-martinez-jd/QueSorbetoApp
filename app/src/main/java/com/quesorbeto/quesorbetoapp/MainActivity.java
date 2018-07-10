@@ -108,18 +108,9 @@ public class MainActivity extends AppCompatActivity {
         //a los guardados en preferencias compartidas, si son distitnos manda un msj de
         //usuario y contraseña incorrectos
         if(!isCorrectAdminUser(email, password)){
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-            builder1.setMessage("Usuario o contraseña incorrecto.");
-            builder1.setCancelable(true);
-            builder1.setPositiveButton(
-                    "Aceptar",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
+            Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+            loginIntent.putExtra("incorrect","incorrect");
+            startActivity(loginIntent);
         }
 
         //añade titulo al activity del menu principal

@@ -58,7 +58,7 @@ public class ProductAddActivity extends AppCompatActivity {
                         !productPrice.getText().toString().equals("")){
                     DbHelper dbHelper = new DbHelper(ProductAddActivity.this);
 
-                    product.setName(productName.getText().toString());
+                    product.setName(productName.getText().toString()+" ₡"+productPrice.getText().toString());
                     product.setCode(productCode.getText().toString());
                     product.setPrice(Double.parseDouble(productPrice.getText().toString()));
 

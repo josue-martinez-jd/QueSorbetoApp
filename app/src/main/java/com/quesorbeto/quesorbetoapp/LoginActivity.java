@@ -23,6 +23,28 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        String fromMain="";
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null){
+            fromMain=extras.getString("incorrect");
+        }
+
+        if(fromMain.contains("incorrect")){
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(LoginActivity.this);
+            builder1.setMessage("Usuario o contraseña incorrecto.");
+            builder1.setCancelable(true);
+            builder1.setPositiveButton(
+                    "Aceptar",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }
+
+
         //ligamos el componente con el layout xml
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
