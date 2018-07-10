@@ -6,15 +6,23 @@
     android:orientation="vertical"
     android:background="@color/colorWhite">
 
+    <ImageButton
+        android:id="@+id/btnEdit"
+        android:layout_width="57dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="320dp"
+        android:src="@drawable/edit"
+        android:visibility="invisible"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
+        android:gravity="left"
         android:text="Cliente"
         android:layout_margin="@dimen/normal_margin_x3"
         android:textStyle="bold"
-        android:textSize="@dimen/h3"/>
+        android:textSize="@dimen/h3" />
 
     <EditText
         android:id="@+id/clientName"
@@ -40,7 +48,18 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/normal_margin_x4"
         android:layout_marginRight="@dimen/normal_margin_x4"
+        android:layout_marginBottom="@dimen/normal_margin_x2"
         android:hint="Dirección"/>
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/spinnerCountries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/normal_margin_x4"
+        android:layout_marginRight="@dimen/normal_margin_x4"
+        android:layout_marginBottom="@dimen/normal_margin_x2"
+        android:textSize="20sp"
+    />
 
     <LinearLayout
         android:layout_width="match_parent"
