@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.quesorbeto.quesorbetoapp.DBGenerator.DbHelper;
 import com.quesorbeto.quesorbetoapp.R;
@@ -23,6 +24,7 @@ public class ProductAddActivity extends AppCompatActivity {
     EditText productCode;
     EditText productPrice;
     Product product = null;
+    ImageButton btnEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class ProductAddActivity extends AppCompatActivity {
         productPrice = findViewById(R.id.productPrice);
         productCode = findViewById(R.id.productCode);
         productName = findViewById(R.id.productName);
+        btnEdit = findViewById(R.id.btnEdit);
 
         String idProduct = getIntent().getExtras().getString("idProduct");
 
@@ -44,9 +47,15 @@ public class ProductAddActivity extends AppCompatActivity {
                     .where(ProductDao.Properties.IdProduct.eq(idProduct))
                     .unique();
 
-            productName.setText(product.getName().toString());
-            productCode.setText(product.getCode().toString());
+            productName.setText(product.getName());
+            productCode.setText(product.getCode());
             productPrice.setText(String.valueOf(product.getPrice()));
+
+            disableEditableTextFields();
+
+            //set edit button visible
+            btnEdit.setVisibility(View.VISIBLE);
+
         }else{
             product = new Product();
         }
@@ -73,6 +82,26 @@ public class ProductAddActivity extends AppCompatActivity {
                 }else{
                     Utils.fillRequiredFields(ProductAddActivity.this);
                 }
+            }
+        });
+
+        //edit button Listener
+        btnEditOnClickLister();
+    }
+
+    private void disableEditableTextFields () {
+        productName.setFocusable(false);
+        productCode.setFocusable(false);
+        productPrice.setFocusable(false);
+    }
+
+    private void btnEditOnClickLister () {
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                productName.setFocusableInTouchMode(true);
+                productCode.setFocusableInTouchMode(true);
+                productPrice.setFocusableInTouchMode(true);
             }
         });
     }
