@@ -67,7 +67,7 @@ public class InvoiceAddActivity extends AppCompatActivity {
         //setea el titulo de facturacion
         getSupportActionBar().setTitle("Facturación");
         //setea la funcionalidad de back press
-        Utils.addBackPress(InvoiceAddActivity.this);
+        Utils.addBackPress(this);
 
         //Puente de union entre la logica y el layout
         saveInvoiceButton = findViewById(R.id.saveInvoiceButton);
