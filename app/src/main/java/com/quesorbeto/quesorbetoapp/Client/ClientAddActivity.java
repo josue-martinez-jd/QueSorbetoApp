@@ -64,6 +64,8 @@ public class ClientAddActivity extends AppCompatActivity {
         spinnerCountries = findViewById(R.id.spinnerCountries);
         btnEdit = findViewById(R.id.btnEdit);
 
+        saveClientButton.setText("Aceptar");
+
         //ingresa los paises en el spinner
         spinnerCountriesAdd();
 
@@ -83,8 +85,9 @@ public class ClientAddActivity extends AppCompatActivity {
 
             disableEditableTextFields();
 
-            //set edit button visible
+            //set edit button visible and country dropdown invisible
             btnEdit.setVisibility(View.VISIBLE);
+            spinnerCountries.setVisibility(View.INVISIBLE);
 
         }else{
             //si no selecciono cliente cree uno nuevo
@@ -98,11 +101,16 @@ public class ClientAddActivity extends AppCompatActivity {
         saveClientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //verifica campos requeridos
                 if(!clientName.getText().toString().equals("")){
                     DbHelper dbHelper = new DbHelper(ClientAddActivity.this);
 
                     //setea los nuevos valores
+                    if(sChosenCountry==null){
+                        sChosenCountry = client.getAddress().split(",")[0].toString();
+                    }
+
                     client.setName(clientName.getText().toString());
                     client.setAddress(sChosenCountry + ',' + clientAdress.getText().toString());
                     client.setPhone(clientPhone.getText().toString());
@@ -138,7 +146,7 @@ public class ClientAddActivity extends AppCompatActivity {
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
                 //obtiene el pais seleccionado
                 sChosenCountry = arrayCountries.get(position);
-                Utils.showMessage(ClientAddActivity.this,sChosenCountry);
+               // Utils.showMessage(ClientAddActivity.this,sChosenCountry);
             }
         });
     }
@@ -153,12 +161,51 @@ public class ClientAddActivity extends AppCompatActivity {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                saveClientButton.setText("Guardar");
+                btnEdit.setVisibility(View.INVISIBLE);
+
+
+
+                String[] currentAddressArray =client.getAddress().split(",");
+                String currentAddress="";
+                String country=currentAddressArray[0];
+
+                for(int i =1; i<currentAddressArray.length;i++){
+                    if(i!=currentAddressArray.length-1){
+                        currentAddress= currentAddress+currentAddressArray[i]+",";
+                    }else{
+                        currentAddress= currentAddress+currentAddressArray[i];
+                    }
+                }
+
+                clientName.setText(client.getName());
+                clientAdress.setText(currentAddress);
+
                 clientName.setFocusableInTouchMode(true);
                 clientAdress.setFocusableInTouchMode(true);
                 clientPhone.setFocusableInTouchMode(true);
+                spinnerCountries.setVisibility(View.VISIBLE);
+
+                //Gets the country from the first value of the Address
+                if(client.getAddress().split(",")[0].toString()!=null){
+                    country = client.getAddress().split(",")[0].toString();
+                }
+
+                //Sets the selected value of the dropdown with the country from the Address
+                for (int i = 0; i < arrayCountries.size(); i++) {
+                    if(arrayCountries.get(i).toString().contains(country)) {
+                        spinnerCountries.setSelectedIndex(i);
+                        return;
+                    }
+                }
+
+
             }
         });
     }
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

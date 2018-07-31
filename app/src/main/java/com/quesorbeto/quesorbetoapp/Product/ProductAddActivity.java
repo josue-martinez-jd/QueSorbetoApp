@@ -39,6 +39,8 @@ public class ProductAddActivity extends AppCompatActivity {
         productName = findViewById(R.id.productName);
         btnEdit = findViewById(R.id.btnEdit);
 
+        saveProductButton.setText("Aceptar");
+
         String idProduct = getIntent().getExtras().getString("idProduct");
 
         if(idProduct != null){
@@ -47,7 +49,8 @@ public class ProductAddActivity extends AppCompatActivity {
                     .where(ProductDao.Properties.IdProduct.eq(idProduct))
                     .unique();
 
-            productName.setText(product.getName());
+            String nameWithoutPrice  = product.getName().split(" ₡")[0].toString();
+            productName.setText(nameWithoutPrice);
             productCode.setText(product.getCode());
             productPrice.setText(String.valueOf(product.getPrice()));
 
@@ -67,7 +70,10 @@ public class ProductAddActivity extends AppCompatActivity {
                         !productPrice.getText().toString().equals("")){
                     DbHelper dbHelper = new DbHelper(ProductAddActivity.this);
 
-                    product.setName(productName.getText().toString()+" ₡"+productPrice.getText().toString());
+                    String newName=productName.getText().toString();
+                    String correctName  = newName.split(" ₡")[0].toString();
+
+                    product.setName(correctName+" ₡"+productPrice.getText().toString());
                     product.setCode(productCode.getText().toString());
                     product.setPrice(Double.parseDouble(productPrice.getText().toString()));
 
@@ -99,9 +105,13 @@ public class ProductAddActivity extends AppCompatActivity {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 productName.setFocusableInTouchMode(true);
                 productCode.setFocusableInTouchMode(true);
                 productPrice.setFocusableInTouchMode(true);
+
+                btnEdit.setVisibility(View.INVISIBLE);
+                saveProductButton.setText("Guardar");
             }
         });
     }
